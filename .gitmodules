@@ -1,0 +1,3 @@
+[submodule "c/pamixer"]
+	path = c/pamixer
+	url = https://github.com/TheDrawingCoder-Gamer/pamixer.git
