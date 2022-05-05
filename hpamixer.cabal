@@ -12,8 +12,7 @@ bug-reports:    https://github.com/TheDrawingCoding-Gamer/hpamixer/issues
 author:         bulby
 maintainer:     bulbyvr@gmail.com
 copyright:      2021 BulbyVR
-license:        BSD-3-Clause
-license-file:   LICENSE
+license:        GPL-3.0-only
 build-type:     Simple
 extra-source-files:
     README.md

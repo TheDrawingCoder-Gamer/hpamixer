@@ -1,7 +1,7 @@
 name:                hpamixer
 version:             0.1.0.0
 github:              "TheDrawingCoding-Gamer/hpamixer"
-license:             GPL3
+license:             GPL-3.0-only
 author:              "bulby"
 maintainer:          "bulbyvr@gmail.com"
 copyright:           "2021 BulbyVR"
