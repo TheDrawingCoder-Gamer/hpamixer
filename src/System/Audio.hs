@@ -42,47 +42,47 @@ foreign import ccall unsafe "ffi.h pulseaudio_get_sinks" c_pulseGetSinks
     :: Ptr CPulseaudio -> IO (Ptr (CHArray (Ptr CDevice)))
 foreign import ccall unsafe "ffi.h pulseaudio_get_sources" c_pulseGetSources
     :: Ptr CPulseaudio -> IO (Ptr (CHArray (Ptr CDevice)))
-foreign import ccall unsafe "pulseaudio_get_sink_index" c_pulseGetSinkIndex
+foreign import ccall unsafe "ffi.h pulseaudio_get_sink_index" c_pulseGetSinkIndex
     :: Ptr CPulseaudio -> CUInt -> IO (Ptr CDevice) 
-foreign import ccall unsafe "pulseaudio_get_sink_name"  c_pulseGetSinkName 
+foreign import ccall unsafe "ffi.h pulseaudio_get_sink_name"  c_pulseGetSinkName 
     :: Ptr CPulseaudio -> CString -> IO (Ptr CDevice) 
-foreign import ccall unsafe "pulseaudio_get_source_index" c_pulseGetSourceIndex 
+foreign import ccall unsafe "ffi.h pulseaudio_get_source_index" c_pulseGetSourceIndex 
     :: Ptr CPulseaudio -> CUInt -> IO (Ptr CDevice) 
-foreign import ccall unsafe "pulseaudio_get_source_name"  c_pulseGetSourceName 
+foreign import ccall unsafe "ffi.h pulseaudio_get_source_name"  c_pulseGetSourceName 
    :: Ptr CPulseaudio -> CString -> IO (Ptr CDevice)
-foreign import ccall unsafe "pulseaudio_get_default_sink" c_pulseGetDefaultSink 
+foreign import ccall unsafe "ffi.h pulseaudio_get_default_sink" c_pulseGetDefaultSink 
     :: Ptr CPulseaudio -> IO (Ptr CDevice) 
-foreign import ccall unsafe "pulseaudio_get_default_source" c_pulseGetDefaultSource 
+foreign import ccall unsafe "ffi.h pulseaudio_get_default_source" c_pulseGetDefaultSource 
     :: Ptr CPulseaudio -> IO (Ptr CDevice)
-foreign import ccall unsafe "pulseaudio_set_volume" c_pulseSetVolume 
+foreign import ccall unsafe "ffi.h pulseaudio_set_volume" c_pulseSetVolume 
     :: Ptr CPulseaudio -> Ptr CDevice -> CUInt -> IO () 
-foreign import ccall unsafe "pulseaudio_set_mute" c_pulseSetMute
+foreign import ccall unsafe "ffi.h pulseaudio_set_mute" c_pulseSetMute
     :: Ptr CPulseaudio ->  Ptr CDevice -> CBool -> IO ()
-foreign import ccall unsafe "device_index" c_deviceIndex
+foreign import ccall unsafe "ffi.h device_index" c_deviceIndex
     :: Ptr CDevice -> IO CUInt
-foreign import ccall unsafe "device_type" c_deviceType
+foreign import ccall unsafe "ffi.h device_type" c_deviceType
     -- is an enum
     :: Ptr CDevice -> IO CInt 
-foreign import ccall unsafe "device_name" c_deviceName 
+foreign import ccall unsafe "ffi.h device_name" c_deviceName 
     :: Ptr CDevice -> IO CString 
-foreign import ccall unsafe "device_description" c_deviceDescription
+foreign import ccall unsafe "ffi.h device_description" c_deviceDescription
     :: Ptr CDevice -> IO CString 
-foreign import ccall unsafe "device_state" c_deviceState 
+foreign import ccall unsafe "ffi.h device_state" c_deviceState 
     -- is an enum
     :: Ptr CDevice -> IO CInt
 -- ignoring device.volume because sanity
-foreign import ccall unsafe "device_volume_avg" c_deviceVolume 
+foreign import ccall unsafe "ffi.h device_volume_avg" c_deviceVolume 
     :: Ptr CDevice -> IO CUInt
-foreign import ccall unsafe "device_volume_percent" c_deviceVolumePercent
+foreign import ccall unsafe "ffi.h device_volume_percent" c_deviceVolumePercent
     :: Ptr CDevice -> IO CInt 
-foreign import ccall unsafe "device_mute" c_deviceMute 
+foreign import ccall unsafe "ffi.h device_mute" c_deviceMute 
     :: Ptr CDevice -> IO CBool -- Word8 LOL
 -- not dealing with creation  because then I have to write externs for pa_source_info 
-foreign import ccall "&device_destroy" c_deviceDestroy 
+foreign import ccall "ffi.h &device_destroy" c_deviceDestroy 
     :: FunPtr (Ptr CDevice -> IO ())
-foreign import ccall "harray_size" harraySize 
+foreign import ccall "ffi.h harray_size" harraySize 
     :: Ptr (CHArray a) -> IO Int 
-foreign import ccall "harray_array" harrayData 
+foreign import ccall "ffi.h harray_array" harrayData 
     :: Ptr (CHArray a) -> IO (Ptr a)
 data PulseState
     = Connecting 

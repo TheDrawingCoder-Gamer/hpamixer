@@ -21,13 +21,13 @@ description:         Please see the README on GitHub at <https://github.com/TheD
 
 dependencies:
 - base >= 4.7 && < 5
-
+extra-libraries: stdc++ pulse
+include-dirs: ffi c/pamixer/src
+cxx-options: -std=c++11
 library:
   source-dirs: src
-  cxx-sources: c/pamixer/src/*.cc ffi/fii.cpp
-  extra-libraries: stdc++ pulse
-  include-dirs: ffi
-  cxx-options: -std=c++11
+  cxx-sources: ffi/ffi.cpp
+
 
 executables:
   hpamixer-exe:
