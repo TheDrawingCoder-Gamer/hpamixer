@@ -23,10 +23,13 @@ dependencies:
 - base >= 4.7 && < 5
 extra-libraries: stdc++ pulse
 include-dirs: ffi c/pamixer/src
-cxx-options: -std=c++11
+cxx-options: -std=c++17
 library:
   source-dirs: src
+  ghc-options: -isystem
   cxx-sources: ffi/ffi.cpp
+  cxx-options: 
+    - -Wall
 
 
 executables:

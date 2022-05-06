@@ -31,7 +31,8 @@ library
       Paths_hpamixer
   hs-source-dirs:
       src
-  cxx-options: -std=c++11
+  ghc-options: -isystem
+  cxx-options: -std=c++17 -Wall
   include-dirs:
       ffi c/pamixer/src
   cxx-sources:
@@ -49,7 +50,7 @@ executable hpamixer-exe
   hs-source-dirs:
       app
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
-  cxx-options: -std=c++11
+  cxx-options: -std=c++17
   include-dirs:
       ffi c/pamixer/src
   extra-libraries:
@@ -67,7 +68,7 @@ test-suite hpamixer-test
   hs-source-dirs:
       test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
-  cxx-options: -std=c++11
+  cxx-options: -std=c++17
   include-dirs:
       ffi c/pamixer/src
   extra-libraries:
