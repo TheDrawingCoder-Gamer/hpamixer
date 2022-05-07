@@ -1,12 +1,6 @@
 #ifndef FFI_H 
 #define FFI_H
-#include "device.hh"
-#include <pulse/pulseaudio.h>
-#include <string>
-#include <list>
-#include <array>
-#include <vector>
-#include <algorithm>
+
 #include "pulseaudio.hh"
 #ifdef __cplusplus
 extern "C" {
@@ -51,7 +45,7 @@ extern "C" {
     */
     void device_destroy(ffi_device* obj);
     bool device_mute(ffi_device* obj);
-    uint32_t harray_size(harray_t arr);
+    uint32_t harray_size(harray_t* arr);
     void* harray_array(harray_t* arr);
 #ifdef __cplusplus
 }

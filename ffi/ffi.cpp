@@ -1,20 +1,26 @@
-
+#include "device.hh"
+#include <pulse/pulseaudio.h>
+#include <string>
+#include <list>
+#include <array>
+#include <vector>
+#include <algorithm>
 #include "ffi.h"
 
 template <typename D, typename T>
-std::list<D*> magic_list(std::list<T> list) {
-    auto ret = new std::list<D*>(list.size());
+std::vector<D*> magic_list(const std::list<T> &list) {
+    auto ret = std::vector<D*>(list.size());
+    ret.reserve(list.size());
     for (auto elem : list) {
-        ret->push_back(reinterpret_cast<D*>(&elem));
+        ret.push_back(reinterpret_cast<D*>(&elem));
     }
-    return *ret;
+    return ret;
 }
 template <typename T>
-harray_t* to_c_array(std::list<T> list) {
-    std::vector<T>* vector = new std::vector(std::begin(list), std::end(list));
+harray_t* to_c_array(std::vector<T> vector) {
     harray_t* arr = (harray_t*) malloc(sizeof(harray_t));
-    arr->size = vector->size();
-    arr->arr = vector->data();
+    arr->size = vector.size();
+    arr->arr = vector.data();
     return arr;
 }
 
@@ -47,11 +53,13 @@ extern "C" {
     }
     ffi_device* pulseaudio_get_sink_name(ffi_pulseaudio* obj, const char* name) {
         auto pulse = reinterpret_cast< Pulseaudio* >(obj);
-	return reinterpret_cast<ffi_device*>(pulse->get_sink(std::string(name)));
+        auto sink  = pulse->get_sink(std::string(name));
+	return reinterpret_cast<ffi_device*>(&sink);
     }
     ffi_device* pulseaudio_get_source_index(ffi_pulseaudio* obj, uint32_t index) {
         auto pulse = reinterpret_cast<Pulseaudio *>(obj);
-	return reinterpret_cast<ffi_device *>(pulse->get_source(index));
+        auto source = pulse->get_source(index);
+	return reinterpret_cast<ffi_device *>(&source);
     }
     ffi_device* pulseaudio_get_source_name(ffi_pulseaudio* obj, const char* name) {
         auto pulse = reinterpret_cast<Pulseaudio *>(obj);
@@ -118,7 +126,7 @@ extern "C" {
 
     void device_destroy(ffi_device* device) {
 	auto obj = reinterpret_cast<Device*>(device);
-	delete device;
+	delete obj;
     }
     uint32_t harray_size(harray_t* arr) {
         return arr->size;
