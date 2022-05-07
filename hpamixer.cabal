@@ -25,22 +25,24 @@ source-repository head
 
 library
   exposed-modules:
-      Lib
       System.Audio
+      System.Audio.Internal
   other-modules:
       Paths_hpamixer
   hs-source-dirs:
       src
   cxx-options: -std=c++17
   include-dirs:
-      ffi c/pamixer/src
+      ffi
+      c/pamixer/src
   cxx-sources:
       ffi/ffi.cpp
       c/pamixer/src/callbacks.cc
       c/pamixer/src/device.cc
       c/pamixer/src/pulseaudio.cc
   extra-libraries:
-      stdc++ pulse
+      stdc++
+      pulse
   build-depends:
       base >=4.7 && <5
   default-language: Haskell2010
@@ -53,9 +55,11 @@ executable hpamixer-exe
       app
   cxx-options: -std=c++17
   include-dirs:
-      ffi c/pamixer/src
+      ffi
+      c/pamixer/src
   extra-libraries:
-      stdc++ pulse
+      stdc++
+      pulse
   build-depends:
       base >=4.7 && <5
     , hpamixer
@@ -71,9 +75,11 @@ test-suite hpamixer-test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   cxx-options: -std=c++17
   include-dirs:
-      ffi c/pamixer/src
+      ffi
+      c/pamixer/src
   extra-libraries:
-      stdc++ pulse
+      stdc++
+      pulse
   build-depends:
       base >=4.7 && <5
     , hpamixer

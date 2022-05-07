@@ -28,8 +28,7 @@ extern "C" {
    
 
     ffi_pulseaudio* pulseaudio_create(const char* name) {
-        auto object = new Pulseaudio(std::string(name));
-	return reinterpret_cast< ffi_pulseaudio* >(object);
+	return reinterpret_cast< ffi_pulseaudio* >(new Pulseaudio(std::string(name)));
     }
     void pulseaudio_destroy(ffi_pulseaudio* obj) {
         auto pulse = reinterpret_cast< Pulseaudio* >(obj);
@@ -48,41 +47,42 @@ extern "C" {
     }
     ffi_device* pulseaudio_get_sink_index(ffi_pulseaudio* obj, uint32_t index) {
         auto pulse = reinterpret_cast< Pulseaudio* >(obj);
-        auto sink = pulse->get_sink(index);
-	return reinterpret_cast<ffi_device*>(&sink);
+        Device* sink = new Device(pulse->get_sink(index));
+	return reinterpret_cast<ffi_device*>(sink);
     }
     ffi_device* pulseaudio_get_sink_name(ffi_pulseaudio* obj, const char* name) {
         auto pulse = reinterpret_cast< Pulseaudio* >(obj);
-        auto sink  = pulse->get_sink(std::string(name));
-	return reinterpret_cast<ffi_device*>(&sink);
+        Device* sink = new Device(pulse->get_sink(std::string(name)));
+	return reinterpret_cast<ffi_device*>(sink);
     }
     ffi_device* pulseaudio_get_source_index(ffi_pulseaudio* obj, uint32_t index) {
         auto pulse = reinterpret_cast<Pulseaudio *>(obj);
-        auto source = pulse->get_source(index);
-	return reinterpret_cast<ffi_device *>(&source);
+        Device* source = new Device(pulse->get_source(index));
+	return reinterpret_cast<ffi_device *>(source);
     }
     ffi_device* pulseaudio_get_source_name(ffi_pulseaudio* obj, const char* name) {
         auto pulse = reinterpret_cast<Pulseaudio *>(obj);
-        auto source = pulse->get_source(std::string(name));
-	return reinterpret_cast<ffi_device *>(&source);
+        Device* source = new Device(pulse->get_source(std::string(name)));
+	return reinterpret_cast<ffi_device *>(source);
     }
     ffi_device* pulseaudio_get_default_source(ffi_pulseaudio* obj) {
         auto pulse = reinterpret_cast<Pulseaudio* >(obj);
-        auto source = pulse->get_default_source();
-        return reinterpret_cast<ffi_device*>(&source);
+        Device* source = new Device(pulse->get_default_source());
+        return reinterpret_cast<ffi_device*>(source);
     }
     ffi_device* pulseaudio_get_default_sink(ffi_pulseaudio* obj) {
         auto pulse = reinterpret_cast<Pulseaudio* >(obj);
-        auto sink = pulse->get_default_sink();
-        return reinterpret_cast<ffi_device*>(&sink);
+        Device* sink;
+        sink = new Device(pulse->get_default_sink());
+        return reinterpret_cast<ffi_device*>(sink);
     }
     void pulseaudio_set_volume(ffi_pulseaudio* obj, ffi_device* device, uint32_t new_volume) {
         auto pulse = reinterpret_cast<Pulseaudio *>(obj);
-	pulse->set_volume(reinterpret_cast<Device& >(device), new_volume);
+	pulse->set_volume(reinterpret_cast<Device&>(device), new_volume);
     }
     void pulseaudio_set_mute(ffi_pulseaudio* obj, ffi_device* device, bool mute) {
         auto pulse = reinterpret_cast<Pulseaudio *>(obj);
-	pulse->set_mute(reinterpret_cast<Device& >(device), mute);
+	pulse->set_mute(reinterpret_cast<Device&>(device), mute);
     }
     uint32_t device_index(ffi_device* device) {
         return reinterpret_cast<Device *>(device)->index;
