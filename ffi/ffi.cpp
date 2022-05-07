@@ -7,23 +7,19 @@
 #include <algorithm>
 #include "ffi.h"
 #include "pulseaudio.hh"
-template <typename D, typename T>
-std::vector<D*> magic_list(const std::list<T> &list) {
-    auto ret = std::vector<D*>(list.size());
-    ret.reserve(list.size());
+ffi_device** magic_list(const std::list<Device> &list) {
+    // + 1 because of terminator
+    ffi_device** ret = (ffi_device**) malloc(sizeof(void*) * (list.size() + 1));
+    int index = 0;
+    // Allocate it on the stack
     for (auto elem : list) {
-        ret.push_back(reinterpret_cast<D*>(&elem));
+        Device* dev = new Device(elem);
+        ret[index] = reinterpret_cast<ffi_device*>(dev);
+        index++;
     }
+    ret[list.size()] = NULL;
     return ret;
 }
-template <typename T>
-harray_t* to_c_array(std::vector<T> vector) {
-    harray_t* arr = (harray_t*) malloc(sizeof(harray_t));
-    arr->size = vector.size();
-    arr->arr = vector.data();
-    return arr;
-}
-
 extern "C" {
    
 
@@ -35,15 +31,15 @@ extern "C" {
 	delete pulse;
     }
 
-    harray_t* pulseaudio_get_sinks(ffi_pulseaudio* obj) {
+    ffi_device** pulseaudio_get_sinks(ffi_pulseaudio* obj) {
         auto pulse = reinterpret_cast< Pulseaudio* >(obj);
         auto sinks = pulse->get_sinks();
 
-        return to_c_array(magic_list<ffi_device>(sinks));
+        return magic_list(sinks);
     }
-    harray_t* pulseaudio_get_sources(ffi_pulseaudio* obj) {
+    ffi_device** pulseaudio_get_sources(ffi_pulseaudio* obj) {
         auto pulse = reinterpret_cast< Pulseaudio* >(obj);
-        return to_c_array(magic_list<ffi_device>(pulse->get_sources()));
+        return magic_list(pulse->get_sources());
     }
     ffi_device* pulseaudio_get_sink_index(ffi_pulseaudio* obj, uint32_t index) {
         auto pulse = reinterpret_cast< Pulseaudio* >(obj);

@@ -19,8 +19,8 @@ extern "C" {
     int pulseaudio_state(ffi_pulseaudio* object);
     ffi_pulseaudio* pulseaudio_create(const char* name);
     void pulseaudio_destroy(ffi_pulseaudio* object);
-    harray_t* pulseaudio_get_sinks(ffi_pulseaudio* object);
-    harray_t* pulseaudio_get_sources(ffi_pulseaudio* object);
+    ffi_device** pulseaudio_get_sinks(ffi_pulseaudio* object);
+    ffi_device** pulseaudio_get_sources(ffi_pulseaudio* object);
     ffi_device* pulseaudio_get_sink_index(ffi_pulseaudio* obj, uint32_t index);
     ffi_device* pulseaudio_get_sink_name(ffi_pulseaudio* obj, const char* name);
     ffi_device* pulseaudio_get_source_index(ffi_pulseaudio* obj, uint32_t index);

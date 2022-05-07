@@ -40,9 +40,9 @@ foreign import capi "ffi.h pulseaudio_create" createPulse
 foreign import capi "ffi.h &pulseaudio_destroy" destroyPulse
     :: FunPtr (Ptr CPulseaudio -> IO())
 foreign import capi "ffi.h pulseaudio_get_sinks" c_pulseGetSinks 
-    :: Ptr CPulseaudio -> IO (Ptr (CHArray (Ptr CDevice)))
+    :: Ptr CPulseaudio -> IO (Ptr (Ptr CDevice))
 foreign import capi "ffi.h pulseaudio_get_sources" c_pulseGetSources
-    :: Ptr CPulseaudio -> IO (Ptr (CHArray (Ptr CDevice)))
+    :: Ptr CPulseaudio -> IO (Ptr (Ptr CDevice))
 foreign import capi "ffi.h pulseaudio_get_sink_index" c_pulseGetSinkIndex
     :: Ptr CPulseaudio -> Word32 -> IO (Ptr CDevice) 
 foreign import capi "ffi.h pulseaudio_get_sink_name"  c_pulseGetSinkName 
@@ -129,10 +129,10 @@ pulseSetVolume (Pulseaudio pulse') (Device device) volume = mask_ $
 
 pulseGetSinks :: Pulseaudio -> IO [Device] 
 pulseGetSinks (Pulseaudio pulse') = withForeignPtr pulse' $ \pulse -> 
-    c_pulseGetSinks pulse >>= harrayToList >>= traverse wrapDevice
+    c_pulseGetSinks pulse >>= peekArray0 nullPtr >>= traverse wrapDevice
 pulseGetSources :: Pulseaudio -> IO [Device]  
 pulseGetSources (Pulseaudio pulse') = withForeignPtr pulse' $ \pulse ->
-    c_pulseGetSources pulse >>= harrayToList >>= traverse wrapDevice
+    c_pulseGetSources pulse >>= peekArray0 nullPtr >>= traverse wrapDevice
 
 pulseGetSourceByIndex :: Pulseaudio -> Word32 -> IO Device  
 pulseGetSourceByIndex (Pulseaudio pulse') idx = withForeignPtr pulse' $ \pulse -> 
