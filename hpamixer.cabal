@@ -34,6 +34,11 @@ library
   cxx-options: -std=c++17
   include-dirs:
       ffi c/pamixer/src
+  cxx-sources:
+      ffi/ffi.cpp
+      c/pamixer/src/callbacks.cc
+      c/pamixer/src/device.cc
+      c/pamixer/src/pulseaudio.cc
   extra-libraries:
       stdc++ pulse
   build-depends:

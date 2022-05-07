@@ -27,7 +27,9 @@ cxx-options:
   - -std=c++17
 library:
   source-dirs: src
-  cxx-sources: ffi/ffi.cpp c/pamixer/src/*.cc
+  cxx-sources: 
+    - ffi/ffi.cpp
+    - c/pamixer/src/*.cc
 
 
 executables:

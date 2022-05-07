@@ -6,7 +6,7 @@
 #include <vector>
 #include <algorithm>
 #include "ffi.h"
-
+#include "pulseaudio.hh"
 template <typename D, typename T>
 std::vector<D*> magic_list(const std::list<T> &list) {
     auto ret = std::vector<D*>(list.size());
@@ -66,13 +66,23 @@ extern "C" {
         auto source = pulse->get_source(std::string(name));
 	return reinterpret_cast<ffi_device *>(&source);
     }
-    void pulseaudio_set_volume(ffi_pulseaudio* obj, ffi_device* device, pa_volume_t new_volume) {
+    ffi_device* pulseaudio_get_default_source(ffi_pulseaudio* obj) {
+        auto pulse = reinterpret_cast<Pulseaudio* >(obj);
+        auto source = pulse->get_default_source();
+        return reinterpret_cast<ffi_device*>(&source);
+    }
+    ffi_device* pulseaudio_get_default_sink(ffi_pulseaudio* obj) {
+        auto pulse = reinterpret_cast<Pulseaudio* >(obj);
+        auto sink = pulse->get_default_sink();
+        return reinterpret_cast<ffi_device*>(&sink);
+    }
+    void pulseaudio_set_volume(ffi_pulseaudio* obj, ffi_device* device, uint32_t new_volume) {
         auto pulse = reinterpret_cast<Pulseaudio *>(obj);
-	pulse->set_volume(reinterpret_cast<Device&>(device), new_volume);
+	pulse->set_volume(reinterpret_cast<Device& >(device), new_volume);
     }
     void pulseaudio_set_mute(ffi_pulseaudio* obj, ffi_device* device, bool mute) {
         auto pulse = reinterpret_cast<Pulseaudio *>(obj);
-	pulse->set_mute(reinterpret_cast<Device&>(device), mute);
+	pulse->set_mute(reinterpret_cast<Device& >(device), mute);
     }
     uint32_t device_index(ffi_device* device) {
         return reinterpret_cast<Device *>(device)->index;
@@ -89,18 +99,20 @@ extern "C" {
     int device_state(ffi_device* device) {
         return reinterpret_cast<Device *>(device)->state;
     }
+    /*
     pa_cvolume device_volume(ffi_device* device) {
         return reinterpret_cast<Device *>(device)->volume;
     }
-    pa_volume_t device_volume_avg(ffi_device* device) {
+    */
+    uint32_t device_volume_avg(ffi_device* device) {
         return reinterpret_cast<Device *>(device)->volume_avg;
     }
 
     int device_volume_percent(ffi_device* device) {
-        return reinterpret_cast<Device*>(device)->volume_percent;
+        return reinterpret_cast<Device* >(device)->volume_percent;
     }
     bool device_mute(ffi_device* device) {
-        return reinterpret_cast<Device*>(device)->mute;
+        return reinterpret_cast<Device* >(device)->mute;
     }
     /*
     ffi_device* device_create_source(const pa_source_info* info) {
@@ -111,17 +123,21 @@ extern "C" {
     }
     */
     ffi_server_info* server_create() {
-        return reinterpret_cast<ffi_server_info*>(new ServerInfo());
+        return reinterpret_cast<ffi_server_info* >(new ServerInfo());
     }
     void server_destroy(ffi_server_info* info) {
-	auto server = reinterpret_cast<ServerInfo*>(info);
+	auto server = reinterpret_cast<ServerInfo* >(info);
 	delete server;
     }
     const char* server_default_source_name(ffi_server_info* info){
-        return reinterpret_cast<ServerInfo*>(info)->default_source_name.c_str();
+        auto server = reinterpret_cast<ServerInfo* >(info);
+        auto name = server->default_source_name;
+
+        return name.c_str();
     } 
     const char* server_default_sink_name(ffi_server_info* info) {
-        return reinterpret_cast<ServerInfo*>(info)->default_sink_name.c_str();
+        auto server = reinterpret_cast<ServerInfo* >(info);
+        return server->default_sink_name.c_str();
     }
 
     void device_destroy(ffi_device* device) {

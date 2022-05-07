@@ -1,7 +1,5 @@
 #ifndef FFI_H 
 #define FFI_H
-
-#include "pulseaudio.hh"
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -27,7 +25,9 @@ extern "C" {
     ffi_device* pulseaudio_get_sink_name(ffi_pulseaudio* obj, const char* name);
     ffi_device* pulseaudio_get_source_index(ffi_pulseaudio* obj, uint32_t index);
     ffi_device* pulseaudio_get_source_name(ffi_pulseaudio* obj, const char* name);
-    void pulseaudio_set_volume(ffi_pulseaudio* obj, ffi_device* device, pa_volume_t new_volume);
+    ffi_device* pulseaudio_get_default_source(ffi_pulseaudio* obj);
+    ffi_device* pulseaudio_get_default_sink(ffi_pulseaudio* obj);
+    void pulseaudio_set_volume(ffi_pulseaudio* obj, ffi_device* device, uint32_t new_volume);
     void pulseaudio_set_mute(ffi_pulseaudio* obj, ffi_device* device, bool mute);
 
     uint32_t device_index(ffi_device* obj);
@@ -35,8 +35,8 @@ extern "C" {
     const char* device_name(ffi_device* obj);
     const char* device_description(ffi_device* obj);
     int device_state(ffi_device* obj);
-    pa_cvolume device_volume(ffi_device* obj);
-    pa_volume_t device_volume_avg(ffi_device* obj);
+    // pa_cvolume device_volume(ffi_device* obj);
+    uint32_t device_volume_avg(ffi_device* obj);
     int device_volume_percent(ffi_device* obj);
     bool device_mute(ffi_device* obj);
     /*
