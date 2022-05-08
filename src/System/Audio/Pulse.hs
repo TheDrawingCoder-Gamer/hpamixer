@@ -1,10 +1,10 @@
-module System.Audio 
-    (module System.Audio.Internal
+module System.Audio.Pulse
+(module System.Audio.Pulse.Internal
     ,deviceVolumePercent) 
 where
 
-import System.Audio.Internal hiding (deviceVolumePercent)
-import qualified System.Audio.Internal as A
+import System.Audio.Pulse.Internal hiding (deviceVolumePercent)
+import qualified System.Audio.Pulse.Internal as A
 
 deviceVolumePercent :: Device -> IO Int 
 deviceVolumePercent dev = 

@@ -5,14 +5,17 @@ license:             GPL-3.0-only
 author:              "bulby"
 maintainer:          "bulbyvr@gmail.com"
 copyright:           "2021 BulbyVR"
-
+stability: experimental
 extra-source-files:
 - README.md
 - ChangeLog.md
+- c/**/**
+- ffi/*
+- LICENSE
 
 # Metadata used when publishing your package
-# synopsis:            Short description of your package
-# category:            Web
+synopsis:            Simple pulseaudio library hooking into pamixer. 
+category:            Audio
 
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is

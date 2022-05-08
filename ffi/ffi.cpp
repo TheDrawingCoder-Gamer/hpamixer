@@ -74,11 +74,13 @@ extern "C" {
     }
     void pulseaudio_set_volume(ffi_pulseaudio* obj, ffi_device* device, uint32_t new_volume) {
         auto pulse = reinterpret_cast<Pulseaudio *>(obj);
-	pulse->set_volume(reinterpret_cast<Device&>(device), new_volume);
+        Device* dev = reinterpret_cast<Device*>(device);
+	pulse->set_volume(*dev, new_volume);
     }
     void pulseaudio_set_mute(ffi_pulseaudio* obj, ffi_device* device, bool mute) {
         auto pulse = reinterpret_cast<Pulseaudio *>(obj);
-	pulse->set_mute(reinterpret_cast<Device&>(device), mute);
+        Device* dev = reinterpret_cast<Device*>(device);
+	pulse->set_mute(*dev, mute);
     }
     uint32_t device_index(ffi_device* device) {
         return reinterpret_cast<Device *>(device)->index;

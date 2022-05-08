@@ -1,6 +1,6 @@
 {-# LANGUAGE ForeignFunctionInterface #-} 
 {-# LANGUAGE CPP, CApiFFI #-}
-module System.Audio.Internal (
+module System.Audio.Pulse.Internal (
     connectPulse,
     pulseSetVolume,
     pulseSetMute,
@@ -81,10 +81,6 @@ foreign import capi "ffi.h device_mute" c_deviceMute
 -- not dealing with creation  because then I have to write externs for pa_source_info 
 foreign import capi "ffi.h &device_destroy" c_deviceDestroy 
     :: FunPtr (Ptr CDevice -> IO ())
-foreign import capi "ffi.h harray_size" harraySize 
-    :: Ptr (CHArray a) -> IO Int 
-foreign import capi "ffi.h harray_array" harrayData 
-    :: Ptr (CHArray a) -> IO (Ptr a)
 data PulseState
     = Connecting 
     | Connected
@@ -150,12 +146,6 @@ pulseDefaultSink :: Pulseaudio -> IO Device
 pulseDefaultSink (Pulseaudio pulse') = withForeignPtr pulse' $ c_pulseGetDefaultSink >=> wrapDevice
 pulseDefaultSource :: Pulseaudio -> IO Device 
 pulseDefaultSource (Pulseaudio pulse') = withForeignPtr pulse' $ c_pulseGetDefaultSource >=> wrapDevice
-harrayToList :: Storable a => Ptr (CHArray a) -> IO [a] 
-harrayToList harray = do
-    size <- harraySize harray 
-    contents <- harrayData harray 
-    free harray
-    peekArray (fromIntegral size) contents
 deviceIndex :: Device -> IO Int
 deviceIndex (Device dev) = withForeignPtr dev $ fmap fromIntegral . c_deviceIndex
 deviceType :: Device -> IO DeviceType 
