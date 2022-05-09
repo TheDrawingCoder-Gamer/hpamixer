@@ -9,7 +9,9 @@ stability: experimental
 extra-source-files:
 - README.md
 - ChangeLog.md
-- c/**/**
+- c/pamixer/src/**
+- c/pamixer/COPYING
+- c/pamixer/README.rst
 - ffi/*
 - LICENSE
 
@@ -56,3 +58,4 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - hpamixer
+    - hspec == 2.*

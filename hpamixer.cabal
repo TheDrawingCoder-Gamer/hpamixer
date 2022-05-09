@@ -21,45 +21,14 @@ build-type:     Simple
 extra-source-files:
     README.md
     ChangeLog.md
-    c/pamixer/build/build.ninja
-    c/pamixer/build/compile_commands.json
-    c/pamixer/build/config.hh
-    c/pamixer/build/libpamixer.a
-    c/pamixer/build/libpamixer.a.p/src_callbacks.cc.o
-    c/pamixer/build/libpamixer.a.p/src_device.cc.o
-    c/pamixer/build/libpamixer.a.p/src_pamixer.cc.o
-    c/pamixer/build/libpamixer.a.p/src_pulseaudio.cc.o
-    c/pamixer/build/meson-info/intro-benchmarks.json
-    c/pamixer/build/meson-info/intro-buildoptions.json
-    c/pamixer/build/meson-info/intro-buildsystem_files.json
-    c/pamixer/build/meson-info/intro-dependencies.json
-    c/pamixer/build/meson-info/intro-install_plan.json
-    c/pamixer/build/meson-info/intro-installed.json
-    c/pamixer/build/meson-info/intro-projectinfo.json
-    c/pamixer/build/meson-info/intro-targets.json
-    c/pamixer/build/meson-info/intro-tests.json
-    c/pamixer/build/meson-info/meson-info.json
-    c/pamixer/build/meson-logs/meson-log.txt
-    c/pamixer/build/meson-private/build.dat
-    c/pamixer/build/meson-private/cmd_line.txt
-    c/pamixer/build/meson-private/coredata.dat
-    c/pamixer/build/meson-private/coredata.dat.prev
-    c/pamixer/build/meson-private/install.dat
-    c/pamixer/build/meson-private/meson.lock
-    c/pamixer/build/meson-private/meson_benchmark_setup.dat
-    c/pamixer/build/meson-private/meson_test_setup.dat
-    c/pamixer/build/meson-private/sanitycheckcpp.cc
-    c/pamixer/build/meson-private/sanitycheckcpp.exe
-    c/pamixer/COPYING
-    c/pamixer/meson.build
-    c/pamixer/pamixer.1
-    c/pamixer/README.rst
     c/pamixer/src/callbacks.cc
     c/pamixer/src/callbacks.hh
     c/pamixer/src/device.cc
     c/pamixer/src/device.hh
     c/pamixer/src/pulseaudio.cc
     c/pamixer/src/pulseaudio.hh
+    c/pamixer/COPYING
+    c/pamixer/README.rst
     ffi/ffi.cpp
     ffi/ffi.h
     LICENSE
@@ -128,4 +97,5 @@ test-suite hpamixer-test
   build-depends:
       base >=4.7 && <5
     , hpamixer
+    , hspec ==2.*
   default-language: Haskell2010
