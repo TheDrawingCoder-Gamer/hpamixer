@@ -97,11 +97,23 @@ extern "C" {
     int device_state(ffi_device* device) {
         return reinterpret_cast<Device *>(device)->state;
     }
-    /*
-    pa_cvolume device_volume(ffi_device* device) {
-        return reinterpret_cast<Device *>(device)->volume;
+    
+    uint32_t* device_volume(ffi_device* device) {
+        Device* dev = reinterpret_cast<Device* >(device);
+        pa_cvolume vol = dev->volume;
+        // free this in haskell!
+        uint32_t* ret = (uint32_t*) malloc(sizeof(uint32_t*) * vol.channels);
+        for (int i = 0; i < vol.channels; i++) {
+            ret[i] = (uint32_t) vol.values[i];
+        }
+        return ret;
     }
-    */
+    uint8_t device_channels(ffi_device* device) {
+        Device* dev = reinterpret_cast<Device* >(device);
+        auto vol = dev->volume;
+        return vol.channels;
+    }
+    
     uint32_t device_volume_avg(ffi_device* device) {
         return reinterpret_cast<Device *>(device)->volume_avg;
     }

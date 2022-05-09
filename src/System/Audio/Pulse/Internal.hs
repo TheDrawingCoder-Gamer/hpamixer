@@ -22,6 +22,7 @@ module System.Audio.Pulse.Internal (
     deviceName,
     deviceDescription,
     deviceState,
+    deviceChannelVolumes,
     deviceVolume,
     deviceVolumePercent,
     deviceMute,
@@ -71,7 +72,10 @@ foreign import capi "ffi.h device_description" c_deviceDescription
 foreign import capi "ffi.h device_state" c_deviceState 
     -- is an enum
     :: Ptr CDevice -> IO Int
--- ignoring device.volume because sanity
+foreign import capi "ffi.h device_volume" c_devChannelVol
+    :: Ptr CDevice -> IO (Ptr Word32)
+foreign import capi "ffi.h device_channels" c_devChannelCount
+    :: Ptr CDevice -> IO Word8
 foreign import capi "ffi.h device_volume_avg" c_deviceVolume 
     :: Ptr CDevice -> IO Word32
 foreign import capi "ffi.h device_volume_percent" c_deviceVolumePercent
@@ -162,6 +166,11 @@ deviceVolumePercent :: Device -> IO Int
 deviceVolumePercent (Device dev) = withForeignPtr dev $ fmap fromIntegral . c_deviceVolumePercent
 deviceMute :: Device -> IO Bool 
 deviceMute (Device dev) = withForeignPtr dev c_deviceMute
+deviceChannelVolumes :: Device -> IO [Word32]
+deviceChannelVolumes (Device d) = withForeignPtr d $ \dev -> do 
+    ptr <- c_devChannelVol  dev
+    count <- c_devChannelCount dev 
+    peekArray (fromIntegral count) ptr
 wrapDevice :: Ptr CDevice -> IO Device 
 wrapDevice dev =  
     Device <$> newForeignPtr c_deviceDestroy dev

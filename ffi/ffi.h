@@ -35,7 +35,8 @@ extern "C" {
     const char* device_name(ffi_device* obj);
     const char* device_description(ffi_device* obj);
     int device_state(ffi_device* obj);
-    // pa_cvolume device_volume(ffi_device* obj);
+    uint8_t device_channels(ffi_device* device);
+    uint32_t* device_volume(ffi_device* obj);
     uint32_t device_volume_avg(ffi_device* obj);
     int device_volume_percent(ffi_device* obj);
     bool device_mute(ffi_device* obj);
