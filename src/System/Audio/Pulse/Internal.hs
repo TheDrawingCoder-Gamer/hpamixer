@@ -170,7 +170,9 @@ deviceChannelVolumes :: Device -> IO [Word32]
 deviceChannelVolumes (Device d) = withForeignPtr d $ \dev -> do 
     ptr <- c_devChannelVol  dev
     count <- c_devChannelCount dev 
-    peekArray (fromIntegral count) ptr
+    list <- peekArray (fromIntegral count) ptr
+    free ptr
+    pure list
 wrapDevice :: Ptr CDevice -> IO Device 
 wrapDevice dev =  
     Device <$> newForeignPtr c_deviceDestroy dev
